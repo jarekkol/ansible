@@ -1,0 +1,14 @@
+---
+- name: Transfer and execute a script. 
+  hosts: all
+  ignore_errors: yes
+  become: yes
+  become_method: sudo
+
+  tasks:
+ 
+    - user: 
+            name="{{login}}"
+            password="{{login | password_hash('sha512') }}"
+            groups="{{grupa}}"
+    - shell: chage -d0 "{{login}}"

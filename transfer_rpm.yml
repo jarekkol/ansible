@@ -1,0 +1,16 @@
+---
+- name: Transfer a file. 
+  hosts: all
+  remote_user: jkolasinski
+  ignore_errors: yes
+
+  tasks:
+
+        - copy:
+            src: /home/jkolasinski/resources/lpar2rrd-agent-6.10-0.ppc.rpm
+            dest: /tmp
+            owner: root
+            group: system
+            mode: 0777
+
+

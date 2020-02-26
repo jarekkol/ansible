@@ -1,0 +1,12 @@
+---
+- name: lock user.
+  hosts: all
+  remote_user: jkolasinski
+  ignore_errors: yes
+  become: yes
+  become_method: su
+  gather_facts: false
+  tasks:
+
+    - name: Blokowania konta
+      shell: passwd -l "{{username}}"
