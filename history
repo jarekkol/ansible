@@ -1,0 +1,58 @@
+Ansible
+=======
+Created wtorek 04 lipiec 2017
+
+ssh-agent bash
+ssh-add .ssh/id_rsa
+ 
+ansible -vvvv db-pprod -a "lsuser rkurek" -c paramiko -m raw
+ansible -vvvv 10.10.12.78 -a "refresh -s inetd" -c paramiko -m raw -S -K
+ansible-playbook -v -f 10 -l test-aix7 playbooks/transfer.yml
+ansible-playbook -l test-aix7 playbooks/execute_command.yml -S -K
+ansible -v test-aix7 -a "echo \"oracle\" >> \/var\/adm\/cron\/cron.allow" -c paramiko -m raw -S -K
+ ansible-playbook -vvvv -f 10 -l 10.10.12.70 create_user_aix.yml -K
+ ansible-playbook -vvvv -f 10 -l 10.10.69.101,10.10.69.102 playbooks/create_user_aix.yml -S -K -e login=rbieniasz
+
+#create user
+#ansible-playbook -v -f 10 -l 10.10.110.5 /etc/ansible/roles/create_user.yml -K -e logins=test2 -e haslo=123qwe -e grupa=ADM -u rkurek
+
+ansible-playbook -v -l 10.10.101.52 /home/jkolasinski/playbooks/change_password.yml -e login=test -S -K                           --set password
+
+#lock user
+ansible -vvvv -f 10 test-aix7 -a "chuser account_locked=true skozersk" -c paramiko -m raw -S -K
+
+AIX:
+upgrade lpar2rrd client:
+ansible-playbook -v -f 10 -l test-aix7 playbooks/transfer.yml
+ansible test-aix7 -a "rpm -Uvh /tmp/lpar2rrd-agent-5.00-0.aix5.1.ppc.rpm" -c paramiko -m raw -S -K
+#update /etc/resolv.conf
+ansible-playbook -vvvv -f 10 -l 10.10.12.98 playbooks/transfer3.yml -S -K
+ansible-playbook -vvvv -f 10 -l test-aix7 playbooks/transfer3.yml -S -K
+
+ansible-playbook -v -f 10 -l OracleDB_LMS fetch2.yml -e src=/home/oracle/AudytLMS2018/LMSCollection/bin/output/ -e dst=/tmp/audit2/ -S -K
+
+Linux:
+ansible linux-nest -m shell -a "/root/SKRYPTY/add_user.sh mbuganski APP 123qwe" -s
+ansible 10.10.73.56,10.10.73.57 -a "/root/SKRYPTY/add_user.sh mbuganski APP 123qwe" -s --ask-sudo-pass
+
+
+10.10.110.5
+
+
+ansible-playbook -v -l 10.10.69.103 lock_user_aix.yml -e username=kk --ask-become-pass
+-k -K -b
+ansible-playbook -v -f 10 -l 10.10.68.60 /home/jkolasinski/playbooks/change_password.yml -e login=tnowatkiewicz --ask-become-pass
+
+
+
+# Installing Packages with one Task ( Faster Process )- name: Installing Packages
+  apt:
+	name: " item "
+	update_cache: yes
+  with_items:
+	- git
+	- nginx
+	- memcached
+strategy: debug
+
+
