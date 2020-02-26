@@ -1,0 +1,17 @@
+---
+- name: Execute a command.
+  hosts: all
+  remote_user: jkolasinski
+  become: yes
+  become_method: su
+  vars:
+     # created with:
+     # python -c 'import crypt; print crypt.crypt("This is my Password", "$1$SomeSalt$")'
+     # perl -e'print crypt("password", "salt")' ; echo -e
+    password: sa3tHJ3/KuYvI
+
+  tasks:
+     - user: name={{login}} password={{password}} state=present group={{group}}
+
+     - name: change password user 
+       command: pwdadm -f ADMCHG {{login}}
