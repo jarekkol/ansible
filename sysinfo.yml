@@ -1,0 +1,9 @@
+---
+- name: show system info
+  hosts: all
+  inore_errors: yes
+  
+  tasks:
+
+    - name: Blokowania konta
+      shell: hostname; cat /etc/redhat-release
