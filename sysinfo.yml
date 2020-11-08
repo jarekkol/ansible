@@ -5,5 +5,5 @@
   
   tasks:
 
-    - name: Blokowania konta
+    - name: Informacje o serwerze i wersji OS
       shell: hostname; cat /etc/redhat-release
